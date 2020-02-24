@@ -1,0 +1,17 @@
+{
+  "name": "tdd-book",
+  "version": "0.0.1",
+  "description": "tdd-book",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "jest": "^25.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC"
+}
