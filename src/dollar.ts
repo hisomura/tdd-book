@@ -1,7 +1,8 @@
 class Dollar {
-  public amount: number = 0
-  constructor(x: number) {}
-  times(multiplier: number) {}
+  constructor(public amount: number) {}
+  times(multiplier: number) {
+    this.amount *= multiplier
+  }
 }
 
 export default Dollar
