@@ -1,8 +1,9 @@
 import Dollar from './dollar'
-test('Dollarクラスのテスト', () => {
-  describe('掛け算のテスト', () => {
+
+describe('Dollarクラス', () => {
+  test('掛け算', () => {
     const five = new Dollar(5)
-    five.times(2)
-    expect(five.amount).toBe(10)
+    expect(five.times(3).amount).toBe(15)
+    expect(five.times(2).amount).toBe(10)
   })
 })
