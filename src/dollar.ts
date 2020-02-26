@@ -1,10 +1,12 @@
-class Dollar {
-  constructor(private amount: number) {}
+import Money from './money'
+
+class Dollar extends Money {
   times(multiplier: number) {
     return new Dollar(this.amount * multiplier)
   }
-  equals(dollar: Dollar): boolean {
-    return this.amount === dollar.amount
+  equals(object: object): boolean {
+    const money: Money = object as Money
+    return this.amount === money.amount
   }
 }
 
