@@ -1,5 +1,10 @@
 class Money {
-  constructor(readonly amount: number) {}
+  constructor(protected amount: number) {}
+
+  equals(object: object): boolean {
+    const money: Money = object as Money
+    return this.amount === money.amount
+  }
 }
 
 export default Money
