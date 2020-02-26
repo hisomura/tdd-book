@@ -1,4 +1,4 @@
-# Default ignored files
-*
+*.iml
+*.xml
 !inspectionProfiles/Project_Default.xml
 !.gitignore
