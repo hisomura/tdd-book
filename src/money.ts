@@ -3,7 +3,7 @@ class Money {
 
   equals(object: object): boolean {
     const money: Money = object as Money
-    return this.amount === money.amount
+    return this.amount === money.amount && this.constructor.name === money.constructor.name
   }
 }
 
