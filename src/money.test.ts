@@ -1,22 +1,21 @@
-import Dollar from './dollar'
-import Franc from './franc'
+import Money, { dollar, franc } from './money'
 
 describe('通貨', () => {
   test('ドルの掛け算', () => {
-    const five = new Dollar(5)
-    expect(five.times(3).equals(new Dollar(15))).toBeTruthy()
-    expect(five.times(2).equals(new Dollar(10))).toBeTruthy()
+    const five: Money = dollar(5)
+    expect(five.times(3).equals(dollar(15))).toBeTruthy()
+    expect(five.times(2).equals(dollar(10))).toBeTruthy()
   })
   test('等価', () => {
-    expect(new Dollar(5).equals(new Dollar(5))).toBeTruthy()
-    expect(new Dollar(5).equals(new Dollar(6))).toBeFalsy()
-    expect(new Franc(5).equals(new Franc(5))).toBeTruthy()
-    expect(new Franc(5).equals(new Franc(6))).toBeFalsy()
-    expect(new Franc(5).equals(new Dollar(5))).toBeFalsy()
+    expect(dollar(5).equals(dollar(5))).toBeTruthy()
+    expect(dollar(5).equals(dollar(6))).toBeFalsy()
+    expect(franc(5).equals(franc(5))).toBeTruthy()
+    expect(franc(5).equals(franc(6))).toBeFalsy()
+    expect(franc(5).equals(dollar(5))).toBeFalsy()
   })
   test('フランの掛け算', () => {
-    const five = new Franc(5)
-    expect(five.times(3).equals(new Franc(15))).toBeTruthy()
-    expect(five.times(2).equals(new Franc(10))).toBeTruthy()
+    const five: Money = franc(5)
+    expect(five.times(3).equals(franc(15))).toBeTruthy()
+    expect(five.times(2).equals(franc(10))).toBeTruthy()
   })
 })
