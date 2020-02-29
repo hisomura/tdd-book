@@ -18,4 +18,9 @@ describe('通貨', () => {
     expect(five.times(3).equals(franc(15))).toBeTruthy()
     expect(five.times(2).equals(franc(10))).toBeTruthy()
   })
+  test('通貨名', () => {
+    const five: Money = franc(5)
+    expect(dollar(1).currency()).toBe('USD')
+    expect(franc(1).currency()).toBe('CHF')
+  })
 })

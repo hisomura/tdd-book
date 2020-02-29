@@ -1,8 +1,8 @@
-import Money from './money'
+import Money, { dollar } from './money'
 
 class Dollar extends Money {
   times(multiplier: number) {
-    return new Dollar(this.amount * multiplier)
+    return dollar(this.amount * multiplier)
   }
 }
 
