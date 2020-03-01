@@ -1,4 +1,5 @@
 import Money, { dollar, franc } from './money'
+import Franc from './franc'
 
 describe('通貨', () => {
   test('ドルの掛け算', () => {
@@ -12,6 +13,9 @@ describe('通貨', () => {
     expect(franc(5).equals(franc(5))).toBeTruthy()
     expect(franc(5).equals(franc(6))).toBeFalsy()
     expect(franc(5).equals(dollar(5))).toBeFalsy()
+  })
+  test('別クラスが等価', () => {
+    expect(new Franc(10, 'CHF').equals(new Money(10, 'CHF'))).toBeTruthy()
   })
   test('フランの掛け算', () => {
     const five: Money = franc(5)

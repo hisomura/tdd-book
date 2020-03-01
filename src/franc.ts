@@ -1,9 +1,5 @@
 import Money, { franc } from './money'
 
-class Franc extends Money {
-  times(multiplier: number) {
-    return franc(this.amount * multiplier)
-  }
-}
+class Franc extends Money {}
 
 export default Franc
