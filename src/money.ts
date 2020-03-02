@@ -1,9 +1,15 @@
-class Money {
+import Expression from './expression'
+
+class Money implements Expression {
   constructor(protected amount: number, protected currencyName: string) {}
 
   equals(object: object): boolean {
     const money: Money = object as Money
     return this.amount === money.amount && this.currency() === money.currency()
+  }
+
+  plus(input: Money): Money {
+    return new Money(this.amount + input.amount, this.currencyName)
   }
 
   times(multiplier: number): Money {
