@@ -1,9 +1,9 @@
 import Expression from './expression'
-import Money, { dollar } from './money'
+import Money from './money'
 
 class Bank {
   reduce(source: Expression, to: string): Money {
-    return dollar(10)
+    return source.reduce(to)
   }
 }
 

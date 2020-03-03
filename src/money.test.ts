@@ -1,6 +1,7 @@
 import Money, { dollar, franc } from './money'
 import Bank from './bank'
 import Expression from './expression'
+import Sum from './sum'
 
 describe('通貨', () => {
   test('掛け算', () => {
@@ -24,5 +25,23 @@ describe('通貨', () => {
     const bank = new Bank()
     const reduced: Money = bank.reduce(sum, 'USD')
     expect(dollar(10).equals(reduced)).toBeTruthy()
+  })
+  test('plus return sum', () => {
+    const five = dollar(5)
+    const result: Expression = five.plus(five)
+    const sum: Sum = result as Sum
+    expect(five.equals(sum.augend)).toBeTruthy()
+    expect(five.equals(sum.addend)).toBeTruthy()
+  })
+  test('reduce sum', () => {
+    const sum: Expression = new Sum(dollar(3), dollar(4))
+    const bank = new Bank()
+    const reduced: Money = bank.reduce(sum, 'USD')
+    expect(reduced.equals(dollar(7))).toBeTruthy()
+  })
+  test('reduce money', () => {
+    const bank = new Bank()
+    const reduced: Money = bank.reduce(dollar(1), 'USD')
+    expect(reduced.equals(dollar(1))).toBeTruthy()
   })
 })
