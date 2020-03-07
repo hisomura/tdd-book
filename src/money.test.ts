@@ -62,6 +62,25 @@ describe('通貨', () => {
     expect(result.equals(dollar(10))).toBeTruthy()
   })
 
+  test('sum plus money', () => {
+    const fiveBucks: Expression = dollar(5)
+    const tenFrancs: Expression = franc(10)
+    const bank = new Bank()
+    bank.addRate('CHF', 'USD', 2)
+    const sum: Expression = new Sum(fiveBucks, tenFrancs).plus(fiveBucks)
+    const result: Money = bank.reduce(sum, 'USD')
+    expect(result.equals(dollar(15))).toBeTruthy()
+  })
+  test('sum times', () => {
+    const fiveBucks: Expression = dollar(5)
+    const tenFrancs: Expression = franc(10)
+    const bank = new Bank()
+    bank.addRate('CHF', 'USD', 2)
+    const sum: Expression = new Sum(fiveBucks, tenFrancs).times(2)
+    const result: Money = bank.reduce(sum, 'USD')
+    expect(result.equals(dollar(20))).toBeTruthy()
+  })
+
   test('RateMap クラスのテスト equalsメソッドを使った比較ができないのでPairsとMapによる実装の代わりをするクラス', () => {
     const rates = new RateMap()
     rates.put('CHF', 'USD', 2)

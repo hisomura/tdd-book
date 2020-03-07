@@ -8,7 +8,11 @@ class Sum implements Expression {
     return new Money(amount, to)
   }
   plus(input: Expression): Expression {
-    return input
+    return new Sum(this, input)
+  }
+
+  times(multiplier: number): Expression {
+    return new Sum(this.augend.times(multiplier), this.augend.times(multiplier))
   }
 
   equals(object: object): boolean {
