@@ -10,7 +10,7 @@ class Money implements Expression {
     return this.amount === money.amount && this.currency() === money.currency()
   }
 
-  plus(input: Money): Expression {
+  plus(input: Expression): Expression {
     return new Sum(this, input)
   }
 
@@ -19,7 +19,7 @@ class Money implements Expression {
     return new Money(this.amount / rate, to)
   }
 
-  times(multiplier: number): Money {
+  times(multiplier: number): Expression {
     return new Money(this.amount * multiplier, this.currencyName)
   }
 

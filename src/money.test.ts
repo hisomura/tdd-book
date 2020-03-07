@@ -54,10 +54,12 @@ describe('通貨', () => {
   })
 
   test('mixed addition', () => {
+    const fiveBucks: Expression = dollar(5)
+    const tenFrancs: Expression = franc(10)
     const bank = new Bank()
     bank.addRate('CHF', 'USD', 2)
-    const result: Money = bank.reduce(franc(2), 'USD')
-    expect(result.equals(dollar(1))).toBeTruthy()
+    const result: Money = bank.reduce(fiveBucks.plus(tenFrancs), 'USD')
+    expect(result.equals(dollar(10))).toBeTruthy()
   })
 
   test('RateMap クラスのテスト equalsメソッドを使った比較ができないのでPairsとMapによる実装の代わりをするクラス', () => {
