@@ -1,5 +1,6 @@
 import Expression from './expression'
 import Sum from './sum'
+import Bank from './bank'
 
 class Money implements Expression {
   constructor(readonly amount: number, protected currencyName: string) {}
@@ -13,8 +14,9 @@ class Money implements Expression {
     return new Sum(this, input)
   }
 
-  reduce(to: string) {
-    return this
+  reduce(bank: Bank, to: string) {
+    const rate: number = bank.rate(this.currencyName, to)
+    return new Money(this.amount / rate, to)
   }
 
   times(multiplier: number): Money {

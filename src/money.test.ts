@@ -2,6 +2,7 @@ import Money, { dollar, franc } from './money'
 import Bank from './bank'
 import Expression from './expression'
 import Sum from './sum'
+import RateMap from './rateMap'
 
 describe('通貨', () => {
   test('掛け算', () => {
@@ -43,5 +44,28 @@ describe('通貨', () => {
     const bank = new Bank()
     const reduced: Money = bank.reduce(dollar(1), 'USD')
     expect(reduced.equals(dollar(1))).toBeTruthy()
+  })
+
+  test('reduce money difference currency', () => {
+    const bank = new Bank()
+    bank.addRate('CHF', 'USD', 2)
+    const result: Money = bank.reduce(franc(2), 'USD')
+    expect(result.equals(dollar(1))).toBeTruthy()
+  })
+
+  test('mixed addition', () => {
+    const bank = new Bank()
+    bank.addRate('CHF', 'USD', 2)
+    const result: Money = bank.reduce(franc(2), 'USD')
+    expect(result.equals(dollar(1))).toBeTruthy()
+  })
+
+  test('RateMap クラスのテスト equalsメソッドを使った比較ができないのでPairsとMapによる実装の代わりをするクラス', () => {
+    const rates = new RateMap()
+    rates.put('CHF', 'USD', 2)
+    rates.put('JPY', 'USD', 110)
+    expect(rates.get('CHF', 'USD')).toBe(2)
+    expect(rates.get('JPY', 'USD')).toBe(110)
+    expect(rates.get('CNY', 'USD')).toBeUndefined()
   })
 })
