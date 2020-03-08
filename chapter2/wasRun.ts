@@ -1,26 +1,15 @@
-class WasRun {
+import TestCase from './testCase'
+
+class WasRun extends TestCase {
   public wasRun = false
 
-  constructor(private name: keyof WasRun) {}
+  constructor(protected name: keyof WasRun) {
+    super(name)
+  }
 
   testMethod() {
     this.wasRun = true
   }
-
-  run() {
-    if (!(this.name in this)) {
-      throw new Error(`${this.constructor.name}に${this.name}は存在しない`)
-    }
-
-    const method = this[this.name]
-    if (isCallable(method)) {
-      method.call(this)
-    }
-  }
-}
-
-function isCallable(x: any): x is (y: any) => void {
-  return typeof x === 'function'
 }
 
 export default WasRun
