@@ -11,7 +11,11 @@ class TestCase {
     const result = new TestResult()
     result.testStarted()
     this.setUp()
-    eval(`this.${this.name}()`)
+    try {
+      eval(`this.${this.name}()`)
+    } catch (e) {
+      result.testFailed()
+    }
     this.tearDown()
     return result
   }
@@ -39,11 +43,15 @@ class WasRun extends TestCase {
 
 class TestResult {
   private runCount = 0
+  private errorCount = 0
   testStarted() {
     this.runCount += 1
   }
+  testFailed() {
+    this.errorCount += 1
+  }
   summary() {
-    return `${this.runCount} run 0 failed`
+    return `${this.runCount} run ${this.errorCount} failed`
   }
 }
 
@@ -75,8 +83,16 @@ class TestCaseTest extends TestCase {
     const result = test.run()
     assert('1 run 1 failed' === result.summary())
   }
+
+  testFailedResultFormatting() {
+    const result = new TestResult()
+    result.testStarted()
+    result.testFailed()
+    assert('1 run 1 failed' === result.summary())
+  }
 }
 
-new TestCaseTest('testTemplateMethod').run()
-new TestCaseTest('testResult').run()
-// new TestCaseTest('testFailedResult').run()
+console.log(new TestCaseTest('testTemplateMethod').run().summary())
+console.log(new TestCaseTest('testResult').run().summary())
+console.log(new TestCaseTest('testFailedResult').run().summary())
+console.log(new TestCaseTest('testFailedResultFormatting').run().summary())
