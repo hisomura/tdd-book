@@ -7,8 +7,7 @@ class TestCase {
 
   tearDown() {}
 
-  run() {
-    const result = new TestResult()
+  run(result: TestResult) {
     result.testStarted()
     this.setUp()
     try {
@@ -55,44 +54,74 @@ class TestResult {
   }
 }
 
-class TestCaseTest extends TestCase {
-  private testObj?: WasRun
+class TestSuite {
+  private tests: TestCase[] = []
+  add(test: TestCase) {
+    this.tests.push(test)
+  }
+  run(result: TestResult) {
+    for (const test of this.tests) {
+      test.run(result)
+    }
+    return result
+  }
+}
 
-  private test(): WasRun {
-    if (!this.testObj) {
+class TestCaseTest extends TestCase {
+  private result?: TestResult
+
+  private getResult(): TestResult {
+    if (!this.result) {
       throw new Error('setUpが実行される前にtest()が呼ばれた')
     }
 
-    return this.testObj
+    return this.result
+  }
+
+  setUp() {
+    super.setUp()
+    this.result = new TestResult()
   }
 
   testTemplateMethod() {
     const test = new WasRun('testMethod')
-    test.run()
+    test.run(this.getResult())
     assert(test.log === 'setUp testMethod tearDown ')
   }
 
   testResult() {
     const test = new WasRun('testMethod')
-    const result = test.run()
-    assert('1 run 0 failed' === result.summary())
+    test.run(this.getResult())
+    assert('1 run 0 failed' === this.getResult().summary())
   }
 
   testFailedResult() {
     const test = new WasRun('testBrokenMethod')
-    const result = test.run()
-    assert('1 run 1 failed' === result.summary())
+    test.run(this.getResult())
+    assert('1 run 1 failed' === this.getResult().summary())
   }
 
   testFailedResultFormatting() {
-    const result = new TestResult()
-    result.testStarted()
-    result.testFailed()
-    assert('1 run 1 failed' === result.summary())
+    this.getResult().testStarted()
+    this.getResult().testFailed()
+    assert('1 run 1 failed' === this.getResult().summary())
+  }
+
+  testSuite() {
+    const suite = new TestSuite()
+    suite.add(new WasRun('testMethod'))
+    suite.add(new WasRun('testBrokenMethod'))
+    suite.run(this.getResult())
+    assert('2 run 1 failed' === this.getResult().summary())
   }
 }
 
-console.log(new TestCaseTest('testTemplateMethod').run().summary())
-console.log(new TestCaseTest('testResult').run().summary())
-console.log(new TestCaseTest('testFailedResult').run().summary())
-console.log(new TestCaseTest('testFailedResultFormatting').run().summary())
+const suite = new TestSuite()
+suite.add(new TestCaseTest('testTemplateMethod'))
+suite.add(new TestCaseTest('testResult'))
+suite.add(new TestCaseTest('testFailedResult'))
+suite.add(new TestCaseTest('testFailedResultFormatting'))
+suite.add(new TestCaseTest('testSuite'))
+const result = new TestResult()
+suite.run(result)
+console.log(result.summary())
